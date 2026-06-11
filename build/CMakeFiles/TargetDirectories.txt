@@ -1,0 +1,4 @@
+/home/josefigueiras/cpp_projects/solar/build/CMakeFiles/solar.dir
+/home/josefigueiras/cpp_projects/solar/build/CMakeFiles/run.dir
+/home/josefigueiras/cpp_projects/solar/build/CMakeFiles/edit_cache.dir
+/home/josefigueiras/cpp_projects/solar/build/CMakeFiles/rebuild_cache.dir
