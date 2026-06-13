@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/solar.dir/solar.cpp.o -o solar 
+/usr/bin/c++ CMakeFiles/solar.dir/solar.cpp.o -o solar  raylib/raylib/libraylib.a -lm -lpthread /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/librt.a -lm -ldl 

@@ -1,1 +1,7 @@
 install raylib
+render hello world
+add celestial bodies
+add physics simulation
+add actual planet data
+add user interaction
+add more features like orbits, moons, etc.

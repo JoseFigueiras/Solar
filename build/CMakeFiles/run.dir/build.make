@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/josefigueiras/cpp_projects/solar
+CMAKE_SOURCE_DIR = /home/josefigueiras/personal/solar
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/josefigueiras/cpp_projects/solar/build
+CMAKE_BINARY_DIR = /home/josefigueiras/personal/solar/build
 
 # Utility rule file for run.
 
@@ -67,7 +67,7 @@ include CMakeFiles/run.dir/compiler_depend.make
 include CMakeFiles/run.dir/progress.make
 
 CMakeFiles/run: solar
-	/home/josefigueiras/cpp_projects/solar/build/solar
+	/usr/bin/cmake -E env LIBGL_ALWAYS_SOFTWARE=1 /home/josefigueiras/personal/solar/build/solar
 
 run: CMakeFiles/run
 run: CMakeFiles/run.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/run.dir/clean:
 .PHONY : CMakeFiles/run.dir/clean
 
 CMakeFiles/run.dir/depend:
-	cd /home/josefigueiras/cpp_projects/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/cpp_projects/solar /home/josefigueiras/cpp_projects/solar /home/josefigueiras/cpp_projects/solar/build /home/josefigueiras/cpp_projects/solar/build /home/josefigueiras/cpp_projects/solar/build/CMakeFiles/run.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/josefigueiras/personal/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/personal/solar /home/josefigueiras/personal/solar /home/josefigueiras/personal/solar/build /home/josefigueiras/personal/solar/build /home/josefigueiras/personal/solar/build/CMakeFiles/run.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/run.dir/depend
 

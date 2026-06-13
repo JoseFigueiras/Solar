@@ -1,29 +1,26 @@
-#include "solar.h"
-#include "vec2.h"
+#include "raylib.h"
 
-#include <chrono>
-#include <cstdlib>
-#include <ctime>
-#include <iomanip>
-#include <iostream>
-#include <vector>
-
-// 
-struct CelestialBody {
-    std::string displayName;
-
-};
+static void render()
+{
+    BeginDrawing();
+    ClearBackground(PINK);
+    EndDrawing();
+}
 
 int main()
 {
-    // init
-    auto prevFrameRenderData;
+    const int screenWidth = 800;
+    const int screenHeight = 450;
 
-    while (1)
+    InitWindow(screenWidth, screenHeight, "Solar");
+    SetTargetFPS(60);
+
+    while (!WindowShouldClose())
     {
-        // send render command to gpu, start doing cpu work for the next frame without waiting on gpu
-        render(prevFrameRenderData);
-        updatePhysics();
+        render();
     }
+
+    CloseWindow();
+
     return 0;
 }
