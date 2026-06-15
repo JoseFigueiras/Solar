@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/josefigueiras/personal/solar
+CMAKE_SOURCE_DIR = /home/josefigueiras/cpp_projects/solar
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/josefigueiras/personal/solar/build
+CMAKE_BINARY_DIR = /home/josefigueiras/cpp_projects/solar/build
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include raylib/CMakeFiles/uninstall.dir/compiler_depend.make
 include raylib/CMakeFiles/uninstall.dir/progress.make
 
 raylib/CMakeFiles/uninstall:
-	cd /home/josefigueiras/personal/solar/build/raylib && /usr/bin/cmake -P /home/josefigueiras/personal/solar/build/raylib/cmake_uninstall.cmake
+	cd /home/josefigueiras/cpp_projects/solar/build/raylib && /usr/bin/cmake -P /home/josefigueiras/cpp_projects/solar/build/raylib/cmake_uninstall.cmake
 
 uninstall: raylib/CMakeFiles/uninstall
 uninstall: raylib/CMakeFiles/uninstall.dir/build.make
@@ -78,10 +78,10 @@ raylib/CMakeFiles/uninstall.dir/build: uninstall
 .PHONY : raylib/CMakeFiles/uninstall.dir/build
 
 raylib/CMakeFiles/uninstall.dir/clean:
-	cd /home/josefigueiras/personal/solar/build/raylib && $(CMAKE_COMMAND) -P CMakeFiles/uninstall.dir/cmake_clean.cmake
+	cd /home/josefigueiras/cpp_projects/solar/build/raylib && $(CMAKE_COMMAND) -P CMakeFiles/uninstall.dir/cmake_clean.cmake
 .PHONY : raylib/CMakeFiles/uninstall.dir/clean
 
 raylib/CMakeFiles/uninstall.dir/depend:
-	cd /home/josefigueiras/personal/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/personal/solar /home/josefigueiras/personal/solar/external/raylib /home/josefigueiras/personal/solar/build /home/josefigueiras/personal/solar/build/raylib /home/josefigueiras/personal/solar/build/raylib/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/josefigueiras/cpp_projects/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/cpp_projects/solar /home/josefigueiras/cpp_projects/solar/external/raylib /home/josefigueiras/cpp_projects/solar/build /home/josefigueiras/cpp_projects/solar/build/raylib /home/josefigueiras/cpp_projects/solar/build/raylib/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : raylib/CMakeFiles/uninstall.dir/depend
 

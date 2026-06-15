@@ -1,8 +1,8 @@
-if(NOT EXISTS "/home/josefigueiras/personal/solar/build/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: /home/josefigueiras/personal/solar/build/install_manifest.txt")
+if(NOT EXISTS "/home/josefigueiras/cpp_projects/solar/build/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: /home/josefigueiras/cpp_projects/solar/build/install_manifest.txt")
 endif()
 
-file(READ "/home/josefigueiras/personal/solar/build/install_manifest.txt" files)
+file(READ "/home/josefigueiras/cpp_projects/solar/build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

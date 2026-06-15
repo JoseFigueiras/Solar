@@ -1,12 +1,12 @@
 raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o: \
- /home/josefigueiras/personal/solar/external/raylib/src/rtextures.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rtextures.c \
  /usr/include/stdc-predef.h \
- /home/josefigueiras/personal/solar/external/raylib/src/raylib.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/josefigueiras/personal/solar/external/raylib/src/config.h \
- /home/josefigueiras/personal/solar/external/raylib/src/utils.h \
- /home/josefigueiras/personal/solar/external/raylib/src/rlgl.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/config.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rlgl.h \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -64,7 +64,7 @@ raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_image.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_image.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -80,9 +80,9 @@ raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o: \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/rl_gputex.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/qoi.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_image_write.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_perlin.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_image_resize2.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_image_resize2.h
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/rl_gputex.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/qoi.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_image_write.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_perlin.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_image_resize2.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_image_resize2.h

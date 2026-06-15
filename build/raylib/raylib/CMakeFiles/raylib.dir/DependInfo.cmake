@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/josefigueiras/personal/solar/external/raylib/src/raudio.c" "raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/rcore.c" "raylib/raylib/CMakeFiles/raylib.dir/rcore.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rcore.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/rmodels.c" "raylib/raylib/CMakeFiles/raylib.dir/rmodels.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rmodels.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/rshapes.c" "raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/rtext.c" "raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/rtextures.c" "raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o.d"
-  "/home/josefigueiras/personal/solar/external/raylib/src/utils.c" "raylib/raylib/CMakeFiles/raylib.dir/utils.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/utils.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/raudio.c" "raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/rcore.c" "raylib/raylib/CMakeFiles/raylib.dir/rcore.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rcore.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/rmodels.c" "raylib/raylib/CMakeFiles/raylib.dir/rmodels.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rmodels.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/rshapes.c" "raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/rtext.c" "raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/rtextures.c" "raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o.d"
+  "/home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.c" "raylib/raylib/CMakeFiles/raylib.dir/utils.c.o" "gcc" "raylib/raylib/CMakeFiles/raylib.dir/utils.c.o.d"
   )
 
 # Targets to which this target links.

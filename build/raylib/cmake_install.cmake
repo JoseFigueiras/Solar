@@ -1,4 +1,4 @@
-# Install script for directory: /home/josefigueiras/personal/solar/external/raylib
+# Install script for directory: /home/josefigueiras/cpp_projects/solar/external/raylib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/josefigueiras/personal/solar/build/raylib/raylib/cmake_install.cmake")
+  include("/home/josefigueiras/cpp_projects/solar/build/raylib/raylib/cmake_install.cmake")
 
 endif()
 

@@ -1,12 +1,12 @@
 raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o: \
- /home/josefigueiras/personal/solar/external/raylib/src/raudio.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raudio.c \
  /usr/include/stdc-predef.h \
- /home/josefigueiras/personal/solar/external/raylib/src/raylib.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/josefigueiras/personal/solar/external/raylib/src/config.h \
- /home/josefigueiras/personal/solar/external/raylib/src/utils.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/miniaudio.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/config.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/miniaudio.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h /usr/include/pthread.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -107,10 +107,10 @@ raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o: \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/eventfd.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/dr_wav.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_vorbis.c \
- /home/josefigueiras/personal/solar/external/raylib/src/external/dr_mp3.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/qoa.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/qoaplay.c \
- /home/josefigueiras/personal/solar/external/raylib/src/external/jar_xm.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/jar_mod.h
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/dr_wav.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_vorbis.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/dr_mp3.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/qoa.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/qoaplay.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/jar_xm.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/jar_mod.h

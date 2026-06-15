@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/josefigueiras/personal/solar
+CMAKE_SOURCE_DIR = /home/josefigueiras/cpp_projects/solar
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/josefigueiras/personal/solar/build
+CMAKE_BINARY_DIR = /home/josefigueiras/cpp_projects/solar/build
 
 # Utility rule file for update_mappings.
 
@@ -67,8 +67,8 @@ include raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/compiler_
 include raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/progress.make
 
 raylib/raylib/external/glfw/src/CMakeFiles/update_mappings:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/josefigueiras/personal/solar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
-	cd /home/josefigueiras/personal/solar/external/raylib/src/external/glfw/src && /usr/bin/cmake -P /home/josefigueiras/personal/solar/external/raylib/src/external/glfw/CMake/GenerateMappings.cmake mappings.h.in mappings.h
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/josefigueiras/cpp_projects/solar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
+	cd /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/glfw/src && /usr/bin/cmake -P /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/glfw/CMake/GenerateMappings.cmake mappings.h.in mappings.h
 
 update_mappings: raylib/raylib/external/glfw/src/CMakeFiles/update_mappings
 update_mappings: raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make
@@ -79,10 +79,10 @@ raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build: update_map
 .PHONY : raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
 
 raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/clean:
-	cd /home/josefigueiras/personal/solar/build/raylib/raylib/external/glfw/src && $(CMAKE_COMMAND) -P CMakeFiles/update_mappings.dir/cmake_clean.cmake
+	cd /home/josefigueiras/cpp_projects/solar/build/raylib/raylib/external/glfw/src && $(CMAKE_COMMAND) -P CMakeFiles/update_mappings.dir/cmake_clean.cmake
 .PHONY : raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/clean
 
 raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/depend:
-	cd /home/josefigueiras/personal/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/personal/solar /home/josefigueiras/personal/solar/external/raylib/src/external/glfw/src /home/josefigueiras/personal/solar/build /home/josefigueiras/personal/solar/build/raylib/raylib/external/glfw/src /home/josefigueiras/personal/solar/build/raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/josefigueiras/cpp_projects/solar/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josefigueiras/cpp_projects/solar /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/glfw/src /home/josefigueiras/cpp_projects/solar/build /home/josefigueiras/cpp_projects/solar/build/raylib/raylib/external/glfw/src /home/josefigueiras/cpp_projects/solar/build/raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/depend
 

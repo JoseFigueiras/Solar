@@ -1,4 +1,4 @@
-# Install script for directory: /home/josefigueiras/personal/solar/external/raylib/src/external/glfw/src
+# Install script for directory: /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

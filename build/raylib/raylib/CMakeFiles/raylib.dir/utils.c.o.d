@@ -1,11 +1,11 @@
 raylib/raylib/CMakeFiles/raylib.dir/utils.c.o: \
- /home/josefigueiras/personal/solar/external/raylib/src/utils.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.c \
  /usr/include/stdc-predef.h \
- /home/josefigueiras/personal/solar/external/raylib/src/raylib.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/josefigueiras/personal/solar/external/raylib/src/config.h \
- /home/josefigueiras/personal/solar/external/raylib/src/utils.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/config.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.h \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

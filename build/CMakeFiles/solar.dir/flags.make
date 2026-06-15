@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
 
-CXX_INCLUDES = -I/home/josefigueiras/personal/solar -I/home/josefigueiras/personal/solar/external/raylib/src -I/home/josefigueiras/personal/solar/external/raylib/src/external/glfw/include
+CXX_INCLUDES = -I/home/josefigueiras/cpp_projects/solar -I/home/josefigueiras/cpp_projects/solar/external/raylib/src -I/home/josefigueiras/cpp_projects/solar/external/raylib/src/external/glfw/include
 
 CXX_FLAGS = -O3
 

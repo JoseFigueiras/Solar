@@ -1,11 +1,11 @@
 raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o: \
- /home/josefigueiras/personal/solar/external/raylib/src/rshapes.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rshapes.c \
  /usr/include/stdc-predef.h \
- /home/josefigueiras/personal/solar/external/raylib/src/raylib.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/josefigueiras/personal/solar/external/raylib/src/config.h \
- /home/josefigueiras/personal/solar/external/raylib/src/rlgl.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/config.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rlgl.h \
  /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

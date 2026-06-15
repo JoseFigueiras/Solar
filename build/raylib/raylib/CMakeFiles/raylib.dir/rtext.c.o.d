@@ -1,12 +1,12 @@
 raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o: \
- /home/josefigueiras/personal/solar/external/raylib/src/rtext.c \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rtext.c \
  /usr/include/stdc-predef.h \
- /home/josefigueiras/personal/solar/external/raylib/src/raylib.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/josefigueiras/personal/solar/external/raylib/src/config.h \
- /home/josefigueiras/personal/solar/external/raylib/src/utils.h \
- /home/josefigueiras/personal/solar/external/raylib/src/rlgl.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/config.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/utils.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/rlgl.h \
  /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -57,7 +57,7 @@ raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h /usr/include/ctype.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_rect_pack.h \
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_rect_pack.h \
  /usr/include/assert.h /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -66,4 +66,4 @@ raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o: \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /home/josefigueiras/personal/solar/external/raylib/src/external/stb_truetype.h
+ /home/josefigueiras/cpp_projects/solar/external/raylib/src/external/stb_truetype.h
