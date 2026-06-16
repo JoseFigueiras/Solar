@@ -1,13 +1,15 @@
 BUILD_DIR := build
+CACHE_FILE := $(BUILD_DIR)/CMakeCache.txt
 
 .PHONY: all configure run run-hardware clean
 
-all: $(BUILD_DIR)/Makefile
+all: configure
 	@$(MAKE) -C $(BUILD_DIR) --no-print-directory solar
 
-configure: $(BUILD_DIR)/Makefile
-
-$(BUILD_DIR)/Makefile: CMakeLists.txt
+configure:
+	@if [ -f "$(CACHE_FILE)" ] && ! grep -Fxq "CMAKE_HOME_DIRECTORY:INTERNAL=$$(pwd)" "$(CACHE_FILE)"; then \
+		rm -rf "$(BUILD_DIR)"; \
+	fi
 	@cmake -S . -B $(BUILD_DIR)
 
 run: all
