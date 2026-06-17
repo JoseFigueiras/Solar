@@ -1,8 +1,12 @@
+#include "camera.h"
+#include "input.h"
 #include "physics.h"
+#include "profiling.h"
 #include "render.h"
 
 #include "raylib.h"
 
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
@@ -34,11 +38,21 @@ int main()
         Renderer renderer;
 
         std::vector<CelestialBody> bodies = physics::create_solar_system();
+        Camera3D camera = camera::create();
 
         while (!WindowShouldClose())
         {
+            const auto frameStart = std::chrono::steady_clock::now();
+
             physics::update(bodies, GetFrameTime());
-            renderer.draw(bodies);
+            input::update_camera(camera, GetFrameTime());
+            renderer.draw(camera, bodies);
+
+            // Total frame time, measured independently of the per-function
+            // timers. Includes the vsync / 60 FPS wait inside EndDrawing.
+            const auto frameEnd = std::chrono::steady_clock::now();
+            profiling::tick(
+                std::chrono::duration<double, std::milli>(frameEnd - frameStart).count());
         }
     }
 

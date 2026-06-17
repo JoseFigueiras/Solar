@@ -1,5 +1,8 @@
 #include "physics.h"
 
+#include "profiling.h"
+
+#include <chrono>
 #include <cmath>
 #include <vector>
 
@@ -159,6 +162,8 @@ std::vector<CelestialBody> create_solar_system()
 
 void update(std::vector<CelestialBody> &bodies, float frameTime)
 {
+    const auto profilingStart = std::chrono::steady_clock::now();
+
     // Carry leftover simulated time between frames so motion stays smooth and
     // frame-rate independent.
     static float accumulator = 0.0f;
@@ -170,6 +175,11 @@ void update(std::vector<CelestialBody> &bodies, float frameTime)
         step_physics(bodies, kFixedStep);
         accumulator -= kFixedStep;
     }
+
+    const auto profilingEnd = std::chrono::steady_clock::now();
+    const double sampleMs = std::chrono::duration<double, std::milli>(profilingEnd - profilingStart).count();
+    profiling::physicsSampleMs = sampleMs;
+    profiling::accumulate(profiling::physicsMs, sampleMs);
 }
 
 } // namespace physics

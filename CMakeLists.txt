@@ -12,6 +12,9 @@ add_executable(solar
     solar.cpp
     physics.cpp
     render.cpp
+    camera.cpp
+    input.cpp
+    profiling.cpp
 )
 
 target_compile_options(solar

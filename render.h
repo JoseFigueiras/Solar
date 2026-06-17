@@ -15,10 +15,10 @@ public:
     Renderer(const Renderer &) = delete;
     Renderer &operator=(const Renderer &) = delete;
 
-    // Draw the bodies from a heliocentric viewpoint (sun kept centered).
-    void draw(const std::vector<CelestialBody> &bodies) const;
+    // Draw the bodies from a heliocentric viewpoint (sun kept centered),
+    // observed through the supplied camera.
+    void draw(const Camera3D &camera, const std::vector<CelestialBody> &bodies) const;
 
 private:
     Model sphere_;
-    Camera3D camera_;
 };
