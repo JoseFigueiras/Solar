@@ -1,7 +1,7 @@
 BUILD_DIR := build
 CACHE_FILE := $(BUILD_DIR)/CMakeCache.txt
 
-.PHONY: all configure run run-hardware clean
+.PHONY: all configure run clean
 
 all: configure
 	@$(MAKE) -C $(BUILD_DIR) --no-print-directory solar
@@ -14,9 +14,6 @@ configure:
 
 run: all
 	@LIBGL_ALWAYS_SOFTWARE=1 $(BUILD_DIR)/solar
-
-run-hardware: all
-	@$(BUILD_DIR)/solar
 
 clean:
 	@cmake --build $(BUILD_DIR) --target clean

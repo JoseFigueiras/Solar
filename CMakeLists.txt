@@ -10,6 +10,8 @@ add_subdirectory(external/raylib "${CMAKE_CURRENT_BINARY_DIR}/raylib")
 
 add_executable(solar
     solar.cpp
+    physics.cpp
+    render.cpp
 )
 
 target_compile_options(solar
