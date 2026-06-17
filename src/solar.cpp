@@ -3,16 +3,49 @@
 #include "physics.h"
 #include "profiling.h"
 #include "render.h"
+#include "spawner.h"
 
 #include "raylib.h"
 
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <vector>
+#include <thread>
 
-int main()
+namespace {
+
+// Parse the optional asteroids-per-belt count from the command line. Accepts a
+// single non-negative integer argument; on missing or invalid input the default
+// from the spawner is used so the program always starts with a sensible scene.
+int parse_asteroids_per_belt(int argc, char **argv)
 {
+    if (argc < 2)
+    {
+        return spawner::kDefaultAsteroidsPerBelt;
+    }
+
+    char *end = nullptr;
+    const long value = std::strtol(argv[1], &end, 10);
+
+    if (end == argv[1] || *end != '\0' || value < 0)
+    {
+        std::fprintf(
+            stderr, "Invalid asteroid count '%s'; using default of %d per belt.\n",
+            argv[1], spawner::kDefaultAsteroidsPerBelt);
+        return spawner::kDefaultAsteroidsPerBelt;
+    }
+
+    return static_cast<int>(value);
+}
+
+} // namespace
+
+int main(int argc, char **argv)
+{
+    const int asteroidsPerBelt = parse_asteroids_per_belt(argc, argv);
+
     const int screenWidth = 800;
     const int screenHeight = 450;
 
@@ -32,20 +65,23 @@ int main()
 
     SetTargetFPS(60);
 
+    Renderer::configure_clip_planes();
+
     // Scope the renderer so its destructor (which unloads GPU assets) runs
     // while the window is still alive, before CloseWindow below.
     {
         Renderer renderer;
 
-        std::vector<CelestialBody> bodies = physics::create_solar_system();
+        std::vector<CelestialBody> bodies = spawner::create_solar_system(asteroidsPerBelt);
         Camera3D camera = camera::create();
 
         while (!WindowShouldClose())
         {
             const auto frameStart = std::chrono::steady_clock::now();
 
-            physics::update(bodies, GetFrameTime());
-            input::update_camera(camera, GetFrameTime());
+            auto frameTime = GetFrameTime();
+            physics::update(bodies, frameTime);
+            input::update_camera(camera, frameTime);
             renderer.draw(camera, bodies);
 
             // Total frame time, measured independently of the per-function
@@ -57,6 +93,10 @@ int main()
     }
 
     CloseWindow();
+
+    // Window is gone, but the process is still alive: emit the final timings so
+    // they remain visible in the terminal after the program exits.
+    profiling::report();
 
     return 0;
 }

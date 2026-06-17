@@ -6,8 +6,9 @@
 
 namespace physics {
 
-// Build the initial set of bodies (sun + planets) with stable orbital velocities.
-std::vector<CelestialBody> create_solar_system();
+// Gravitational constant in simulation units (tuned for a visually pleasant
+// scale). Exposed so spawning code can derive stable circular orbital speeds.
+inline constexpr float kGravity = 1.0f;
 
 // Advance the simulation to cover the elapsed frame time, using fixed internal
 // substeps for numerical stability.

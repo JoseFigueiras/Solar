@@ -15,10 +15,18 @@ public:
     Renderer(const Renderer &) = delete;
     Renderer &operator=(const Renderer &) = delete;
 
+    // Push the far clip plane well past the camera's maximum zoom-out distance
+    // (input's maxRadius) plus the radius of the outermost orbits, so nothing in
+    // the scene is culled when the view is pulled all the way back. raylib's
+    // default far plane of 1000 is far too close for this orbital scale. A
+    // window must already be initialized before calling this.
+    static void configure_clip_planes();
+
     // Draw the bodies from a heliocentric viewpoint (sun kept centered),
     // observed through the supplied camera.
     void draw(const Camera3D &camera, const std::vector<CelestialBody> &bodies) const;
 
 private:
     Model sphere_;
+    Texture2D asteroidSprite_;
 };

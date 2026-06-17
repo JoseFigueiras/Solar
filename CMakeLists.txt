@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(solar LANGUAGES CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set_property(GLOBAL PROPERTY TARGET_MESSAGES OFF)
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -9,12 +11,13 @@ set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/raylib "${CMAKE_CURRENT_BINARY_DIR}/raylib")
 
 add_executable(solar
-    solar.cpp
-    physics.cpp
-    render.cpp
-    camera.cpp
-    input.cpp
-    profiling.cpp
+    src/solar.cpp
+    src/physics.cpp
+    src/render.cpp
+    src/camera.cpp
+    src/input.cpp
+    src/profiling.cpp
+    src/spawner.cpp
 )
 
 target_compile_options(solar
@@ -24,7 +27,7 @@ target_compile_options(solar
 
 target_include_directories(solar
     PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
 target_link_libraries(solar

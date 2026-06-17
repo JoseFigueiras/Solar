@@ -8,16 +8,19 @@ namespace profiling {
 // Smoothed CPU time (in milliseconds) spent in the most recent calls.
 extern double physicsMs;
 extern double renderMs;
+extern double presentMs;
 
 // Raw (unsmoothed) time of the most recent call, fed into the per-second
 // averages below.
 extern double physicsSampleMs;
 extern double renderSampleMs;
+extern double presentSampleMs;
 
 // Averages over the last full second, refreshed once per second.
 extern double avgFrameMs;
 extern double avgPhysicsMs;
 extern double avgRenderMs;
+extern double avgPresentMs;
 
 // Fold a fresh sample into a smoothed value using an exponential moving
 // average, so on-screen numbers stay readable instead of flickering.
@@ -31,5 +34,10 @@ inline void accumulate(double &smoothed, double sampleMs)
 // total frame time. Accumulates the frame/physics/render samples and refreshes
 // the per-second averages when a full second has elapsed.
 void tick(double frameMs);
+
+// Print the most recent per-second averages (frame/physics/render) to stdout.
+// Intended to be called once on shutdown so the final timings survive after the
+// window closes.
+void report();
 
 } // namespace profiling

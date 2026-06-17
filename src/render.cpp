@@ -2,25 +2,13 @@
 
 #include "profiling.h"
 
+#include "rlgl.h"
+
 #include <chrono>
 #include <cstdio>
 #include <vector>
 
 namespace {
-
-void draw_body(
-    const CelestialBody &body,
-    const Vector3 &renderPosition,
-    const Model &sphere)
-{
-    DrawModelEx(
-        sphere,
-        renderPosition,
-        {0.0f, 1.0f, 0.0f},
-        0.0f,
-        {body.radius, body.radius, body.radius},
-        WHITE);
-}
 
 // Draw the profiling overlay: live per-frame timings in the top-left corner
 // and per-second averages right-aligned in the top-right corner.
@@ -28,13 +16,14 @@ void draw_profiling_overlay()
 {
     const int fontSize = 20;
 
-    char overlay[64];
+    char overlay[96];
     std::snprintf(
         overlay,
         sizeof(overlay),
-        "physics: %5.2f ms\nrender:  %5.2f ms",
+        "physics: %5.2f ms\nrender:  %5.2f ms\npresent: %5.2f ms",
         profiling::physicsMs,
-        profiling::renderMs);
+        profiling::renderMs,
+        profiling::presentMs);
     DrawText(overlay, 10, 10, fontSize, RAYWHITE);
 
     // Each line is right-aligned so the numbers stay anchored to the edge
@@ -50,18 +39,40 @@ void draw_profiling_overlay()
 
     std::snprintf(line, sizeof(line), "render avg:  %5.2f ms", profiling::avgRenderMs);
     DrawText(line, right - MeasureText(line, fontSize), 58, fontSize, RAYWHITE);
+
+    std::snprintf(line, sizeof(line), "present avg: %5.2f ms", profiling::avgPresentMs);
+    DrawText(line, right - MeasureText(line, fontSize), 82, fontSize, RAYWHITE);
+}
+
+// Build the tiny texture used for asteroid billboards. A single white pixel is
+// enough: each asteroid is drawn as one camera-facing quad tinted to taste, so
+// no detailed image is needed and the GPU keeps the whole belt in one cheap
+// texture binding.
+Texture2D load_asteroid_sprite()
+{
+    Image image = GenImageColor(1, 1, WHITE);
+    Texture2D texture = LoadTextureFromImage(image);
+    UnloadImage(image);
+    return texture;
 }
 
 } // namespace
 
 Renderer::Renderer()
-    : sphere_(LoadModelFromMesh(GenMeshSphere(1.0f, 64, 32)))
+    : sphere_(LoadModelFromMesh(GenMeshSphere(1.0f, 12, 12))),
+      asteroidSprite_(load_asteroid_sprite())
 {
 }
 
 Renderer::~Renderer()
 {
     UnloadModel(sphere_);
+    UnloadTexture(asteroidSprite_);
+}
+
+void Renderer::configure_clip_planes()
+{
+    rlSetClipPlanes(0.1, 10000.0);
 }
 
 void Renderer::draw(
@@ -78,7 +89,7 @@ void Renderer::draw(
     ClearBackground({3, 5, 12, 255});
 
     BeginMode3D(camera);
-    DrawGrid(24, 1.0f);
+    //DrawGrid(200, 20.0f);
 
     for (const CelestialBody &body : bodies)
     {
@@ -87,7 +98,25 @@ void Renderer::draw(
             body.position.y - origin.y,
             body.position.z - origin.z,
         };
-        draw_body(body, renderPosition, sphere_);
+
+        // Asteroids are massless test particles drawn as a single camera-facing
+        // billboard quad: one polygon per asteroid is dramatically cheaper than a
+        // mesh across a belt of thousands. Massive bodies (sun, planets, moons)
+        // use an actual low-poly sphere mesh so they keep real 3D volume.
+        if (body.mass == 0.0f)
+        {
+            DrawBillboard(camera, asteroidSprite_, renderPosition, body.radius * 2.0f, WHITE);
+        }
+        else
+        {
+            DrawModelEx(
+                sphere_,
+                renderPosition,
+                {0.0f, 1.0f, 0.0f},
+                0.0f,
+                {body.radius, body.radius, body.radius},
+                WHITE);
+        }
     }
     EndMode3D();
 
@@ -101,5 +130,14 @@ void Renderer::draw(
 
     draw_profiling_overlay();
 
+    // EndDrawing() does the buffer swap and the SetTargetFPS wait. Under
+    // software OpenGL it also performs the actual pixel rasterization on the
+    // CPU, so this "present" phase captures the real drawing cost that the
+    // render timer above deliberately excludes.
+    const auto presentStart = std::chrono::steady_clock::now();
     EndDrawing();
+    const auto presentEnd = std::chrono::steady_clock::now();
+    const double presentSampleMs = std::chrono::duration<double, std::milli>(presentEnd - presentStart).count();
+    profiling::presentSampleMs = presentSampleMs;
+    profiling::accumulate(profiling::presentMs, presentSampleMs);
 }

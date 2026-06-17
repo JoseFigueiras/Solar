@@ -1,6 +1,14 @@
 BUILD_DIR := build
 CACHE_FILE := $(BUILD_DIR)/CMakeCache.txt
 
+# Allow `make run <count>` to forward the asteroid count to the program. Any
+# goals after `run` are captured here and turned into no-op targets below so
+# Make does not try to build them as files.
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+$(eval $(RUN_ARGS):;@:)
+endif
+
 .PHONY: all configure run clean
 
 all: configure
@@ -13,7 +21,7 @@ configure:
 	@cmake -S . -B $(BUILD_DIR)
 
 run: all
-	@LIBGL_ALWAYS_SOFTWARE=1 $(BUILD_DIR)/solar
+	@LIBGL_ALWAYS_SOFTWARE=1 $(BUILD_DIR)/solar $(RUN_ARGS)
 
 clean:
 	@cmake --build $(BUILD_DIR) --target clean
