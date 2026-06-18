@@ -23,6 +23,7 @@ add_executable(solar
 target_compile_options(solar
     PRIVATE
     -O3
+    -fno-omit-frame-pointer
 )
 
 target_include_directories(solar
