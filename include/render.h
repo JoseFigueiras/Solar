@@ -23,8 +23,14 @@ public:
     static void configure_clip_planes();
 
     // Draw the bodies from a heliocentric viewpoint (sun kept centered),
-    // observed through the supplied camera.
-    void draw(const Camera3D &camera, const std::vector<CelestialBody> &bodies) const;
+    // observed through the supplied camera. Massive bodies and their parallel
+    // render-info array describe the spheres; the massless bodies are drawn as
+    // billboards.
+    void draw(
+        const Camera3D &camera,
+        const std::vector<MassiveBody> &massiveBodies,
+        const std::vector<MassObjectsRenderInfo> &massiveRenderInfo,
+        const MasslessBodies &masslessBodies) const;
 
 private:
     Model sphere_;

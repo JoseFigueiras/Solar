@@ -26,10 +26,6 @@ constexpr float kRadiusPerCbrtMass = 2.6f;
 constexpr float kSunMass = 1000.0f;
 constexpr float kSunRadius = 14.0f;
 
-// Asteroids are massless test particles, so they have no mass to derive a size
-// from; they share one small fixed render radius instead.
-constexpr float kAsteroidRadius = 0.5f;
-
 // Total asteroids per belt. The actual count used at runtime is passed into
 // create_solar_system; this constant only documents the historical default and
 // is exposed via spawner::kDefaultAsteroidsPerBelt in the header.
@@ -55,14 +51,19 @@ float radius_from_mass(float mass)
     return kRadiusPerCbrtMass * std::cbrt(mass);
 }
 
-// Place a body on a circular orbit around a central mass at the given radius.
-// The orbit is computed relative to the center's current position *and*
-// velocity, so moons correctly inherit the motion of the planet they circle.
-CelestialBody make_orbiting_body(
-    const CelestialBody &center,
+// Pairs a freshly-spawned massive body with the render radius derived for it,
+// so the spawn helpers can hand back both halves of the SoA layout at once.
+struct MassiveSpawn {
+    MassiveBody body;
+    float radius;
+};
+
+// Position and velocity of a body placed on a circular orbit. Returned as a
+// MasslessBody since that is exactly a (position, velocity) pair; callers then
+// attach mass/radius as needed.
+MasslessBody orbit_kinematics(
+    const MassiveBody &center,
     float orbitRadius,
-    float mass,
-    float radius,
     float phase,
     float verticalOffset)
 {
@@ -83,27 +84,28 @@ CelestialBody make_orbiting_body(
         center.velocity.z + std::cos(phase) * speed,
     };
 
-    return {position, velocity, mass, radius};
+    return {position, velocity};
 }
 
-// Convenience overload: a planet or moon whose render radius is derived from its
+// A planet or moon orbiting `center`, whose render radius is derived from its
 // mass via the constant-density relationship.
-CelestialBody make_massive_body(
-    const CelestialBody &center,
+MassiveSpawn make_massive_body(
+    const MassiveBody &center,
     float orbitRadius,
     float mass,
     float phase,
     float verticalOffset)
 {
-    return make_orbiting_body(center, orbitRadius, mass, radius_from_mass(mass), phase, verticalOffset);
+    const MasslessBody k = orbit_kinematics(center, orbitRadius, phase, verticalOffset);
+    return {{k.position, k.velocity, mass}, radius_from_mass(mass)};
 }
 
-// Append `count` moons orbiting `planet` into `bodies`. Moons are spread around
-// the planet with deterministic-but-varied spacing and small vertical spread so
-// dense systems do not look like a single flat ring.
+// Append `count` moons orbiting `planet` into `massive`. Moons are spread
+// around the planet with deterministic-but-varied spacing and small vertical
+// spread so dense systems do not look like a single flat ring.
 void add_moons(
-    std::vector<CelestialBody> &bodies,
-    const CelestialBody &planet,
+    MassiveBodies &massive,
+    const MassiveSpawn &planet,
     int count,
     std::mt19937 &rng)
 {
@@ -131,7 +133,9 @@ void add_moons(
         const float phase = phaseDist(rng);
         const float tilt = tiltDist(rng);
         const float mass = massDist(rng);
-        bodies.push_back(make_massive_body(planet, orbit, mass, phase, tilt));
+        const MassiveSpawn moon = make_massive_body(planet.body, orbit, mass, phase, tilt);
+        massive.bodies.push_back(moon.body);
+        massive.renderInfo.push_back({moon.radius});
     }
 }
 
@@ -140,8 +144,8 @@ void add_moons(
 // sampled randomly, so the belt is described by a handful of parameters rather
 // than thousands of hardcoded values.
 void add_asteroid_belt(
-    std::vector<CelestialBody> &bodies,
-    const CelestialBody &sun,
+    MasslessBodies &masslessBodies,
+    const MassiveBody &sun,
     int count,
     float minRadius,
     float maxRadius,
@@ -155,7 +159,7 @@ void add_asteroid_belt(
     // perfectly uniform ring.
     std::uniform_real_distribution<float> speedJitter(0.97f, 1.03f);
 
-    bodies.reserve(bodies.size() + static_cast<std::size_t>(count));
+    masslessBodies.reserve(masslessBodies.size() + static_cast<std::size_t>(count));
 
     for (int i = 0; i < count; ++i)
     {
@@ -163,25 +167,24 @@ void add_asteroid_belt(
         const float phase = phaseDist(rng);
         const float height = heightDist(rng);
 
-        CelestialBody asteroid =
-            make_orbiting_body(sun, orbitRadius, 0.0f, kAsteroidRadius, phase, height);
+        MasslessBody asteroid = orbit_kinematics(sun, orbitRadius, phase, height);
 
         const float jitter = speedJitter(rng);
         asteroid.velocity.x *= jitter;
         asteroid.velocity.z *= jitter;
 
-        bodies.push_back(asteroid);
+        masslessBodies.push_back(asteroid);
     }
 }
 
 // Remove net momentum so the system's barycenter stays fixed in space. Massless
 // asteroids contribute nothing here, so the belts cannot bias the drift.
-void zero_net_momentum(std::vector<CelestialBody> &bodies)
+void zero_net_momentum(std::vector<MassiveBody> &bodies)
 {
     Vector3 totalMomentum = {0.0f, 0.0f, 0.0f};
     float totalMass = 0.0f;
 
-    for (const CelestialBody &body : bodies)
+    for (const MassiveBody &body : bodies)
     {
         totalMomentum.x += body.velocity.x * body.mass;
         totalMomentum.y += body.velocity.y * body.mass;
@@ -200,7 +203,7 @@ void zero_net_momentum(std::vector<CelestialBody> &bodies)
         totalMomentum.z / totalMass,
     };
 
-    for (CelestialBody &body : bodies)
+    for (MassiveBody &body : bodies)
     {
         body.velocity.x -= driftVelocity.x;
         body.velocity.y -= driftVelocity.y;
@@ -212,19 +215,20 @@ void zero_net_momentum(std::vector<CelestialBody> &bodies)
 
 namespace spawner {
 
-std::vector<CelestialBody> create_solar_system(int asteroidsPerBelt)
+GameObjects create_solar_system(int asteroidsPerBelt)
 {
     if (asteroidsPerBelt < 0)
     {
         asteroidsPerBelt = 0;
     }
 
-    const CelestialBody sun = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, kSunMass, kSunRadius};
+    const MassiveBody sun = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, kSunMass};
 
     std::mt19937 rng(kAsteroidSeed);
 
-    std::vector<CelestialBody> bodies;
-    bodies.push_back(sun);
+    GameObjects game;
+    game.massive.bodies.push_back(sun);
+    game.massive.renderInfo.push_back({kSunRadius});
 
     // Ten planets. The four inner worlds are small and rocky; the outer six are
     // progressively more massive gas/ice giants. Each entry is
@@ -252,24 +256,25 @@ std::vector<CelestialBody> create_solar_system(int asteroidsPerBelt)
 
     for (const PlanetSpec &spec : planets)
     {
-        const CelestialBody planet =
+        const MassiveSpawn planet =
             make_massive_body(sun, spec.orbitRadius * kOrbitScale, spec.mass, spec.phase, spec.verticalOffset);
-        bodies.push_back(planet);
-        add_moons(bodies, planet, spec.moonCount, rng);
+        game.massive.bodies.push_back(planet.body);
+        game.massive.renderInfo.push_back({planet.radius});
+        add_moons(game.massive, planet, spec.moonCount, rng);
     }
 
     // Two asteroid belts of massless test particles.
     add_asteroid_belt(
-        bodies, sun, asteroidsPerBelt, kInnerBeltMinRadius * kOrbitScale, kInnerBeltMaxRadius * kOrbitScale,
+        game.massless, sun, asteroidsPerBelt, kInnerBeltMinRadius * kOrbitScale, kInnerBeltMaxRadius * kOrbitScale,
         kInnerBeltThickness * kOrbitScale, rng);
     add_asteroid_belt(
-        bodies, sun, asteroidsPerBelt, kOuterBeltMinRadius * kOrbitScale, kOuterBeltMaxRadius * kOrbitScale,
+        game.massless, sun, asteroidsPerBelt, kOuterBeltMinRadius * kOrbitScale, kOuterBeltMaxRadius * kOrbitScale,
         kOuterBeltThickness * kOrbitScale, rng);
 
     // Start with no net momentum so the barycenter does not drift away.
-    zero_net_momentum(bodies);
+    zero_net_momentum(game.massive.bodies);
 
-    return bodies;
+    return game;
 }
 
 } // namespace spawner

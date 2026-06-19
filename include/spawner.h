@@ -2,8 +2,6 @@
 
 #include "solar.h"
 
-#include <vector>
-
 namespace spawner {
 
 // Default number of asteroids generated in each belt when no explicit count is
@@ -18,6 +16,6 @@ constexpr int kDefaultAsteroidsPerBelt = 500;
 // `asteroidsPerBelt` controls how many massless test particles populate each of
 // the two belts; pass a different value to trade visual density for
 // performance.
-std::vector<CelestialBody> create_solar_system(int asteroidsPerBelt = kDefaultAsteroidsPerBelt);
+GameObjects create_solar_system(int asteroidsPerBelt = kDefaultAsteroidsPerBelt);
 
 } // namespace spawner

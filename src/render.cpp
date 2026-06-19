@@ -77,11 +77,19 @@ void Renderer::configure_clip_planes()
 
 void Renderer::draw(
     const Camera3D &camera,
-    const std::vector<CelestialBody> &bodies) const
+    const std::vector<MassiveBody> &massiveBodies,
+    const std::vector<MassObjectsRenderInfo> &massiveRenderInfo,
+    const MasslessBodies &masslessBodies) const
 {
+    // Render size of every asteroid billboard. Massless bodies carry no radius
+    // of their own (it would only bloat the physics cache lines), so the
+    // renderer owns this fixed draw size.
+    constexpr float kAsteroidRadius = 0.5f;
+
     // Heliocentric view: draw everything relative to the sun so it stays centered,
-    // while the underlying physics remains a full N-body simulation.
-    const Vector3 origin = bodies.empty() ? Vector3{0.0f, 0.0f, 0.0f} : bodies[0].position;
+    // while the underlying physics remains a full N-body simulation. The sun is
+    // the first massive body.
+    const Vector3 origin = massiveBodies.empty() ? Vector3{0.0f, 0.0f, 0.0f} : massiveBodies[0].position;
 
     const auto profilingStart = std::chrono::steady_clock::now();
 
@@ -91,7 +99,31 @@ void Renderer::draw(
     BeginMode3D(camera);
     //DrawGrid(200, 20.0f);
 
-    for (const CelestialBody &body : bodies)
+    // Massive bodies (sun, planets, moons) use an actual low-poly sphere mesh so
+    // they keep real 3D volume. The render radius lives in the parallel
+    // render-info array.
+    for (std::size_t i = 0; i < massiveBodies.size(); ++i)
+    {
+        const Vector3 renderPosition = {
+            massiveBodies[i].position.x - origin.x,
+            massiveBodies[i].position.y - origin.y,
+            massiveBodies[i].position.z - origin.z,
+        };
+
+        const float radius = massiveRenderInfo[i].radius;
+        DrawModelEx(
+            sphere_,
+            renderPosition,
+            {0.0f, 1.0f, 0.0f},
+            0.0f,
+            {radius, radius, radius},
+            WHITE);
+    }
+
+    // Asteroids are massless test particles drawn as a single camera-facing
+    // billboard quad: one polygon per asteroid is dramatically cheaper than a
+    // mesh across a belt of thousands.
+    for (const MasslessBody &body : masslessBodies)
     {
         const Vector3 renderPosition = {
             body.position.x - origin.x,
@@ -99,24 +131,7 @@ void Renderer::draw(
             body.position.z - origin.z,
         };
 
-        // Asteroids are massless test particles drawn as a single camera-facing
-        // billboard quad: one polygon per asteroid is dramatically cheaper than a
-        // mesh across a belt of thousands. Massive bodies (sun, planets, moons)
-        // use an actual low-poly sphere mesh so they keep real 3D volume.
-        if (body.mass == 0.0f)
-        {
-            DrawBillboard(camera, asteroidSprite_, renderPosition, body.radius * 2.0f, WHITE);
-        }
-        else
-        {
-            DrawModelEx(
-                sphere_,
-                renderPosition,
-                {0.0f, 1.0f, 0.0f},
-                0.0f,
-                {body.radius, body.radius, body.radius},
-                WHITE);
-        }
+        DrawBillboard(camera, asteroidSprite_, renderPosition, kAsteroidRadius * 2.0f, WHITE);
     }
     EndMode3D();
 

@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     {
         Renderer renderer;
 
-        std::vector<CelestialBody> bodies = spawner::create_solar_system(asteroidsPerBelt);
+        GameObjects game = spawner::create_solar_system(asteroidsPerBelt);
         Camera3D camera = camera::create();
 
         while (!WindowShouldClose())
@@ -80,9 +80,9 @@ int main(int argc, char **argv)
             const auto frameStart = std::chrono::steady_clock::now();
 
             auto frameTime = GetFrameTime();
-            physics::update(bodies, frameTime);
+            physics::update(game.massive.bodies, game.massless, frameTime);
             input::update_camera(camera, frameTime);
-            renderer.draw(camera, bodies);
+            renderer.draw(camera, game.massive.bodies, game.massive.renderInfo, game.massless);
 
             // Total frame time, measured independently of the per-function
             // timers. Includes the vsync / 60 FPS wait inside EndDrawing.
