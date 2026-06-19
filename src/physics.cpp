@@ -14,9 +14,11 @@ constexpr float kSoftening = 0.05f;
 // per-frame physics cost stays constant regardless of frame rate.
 constexpr int kSubstepsPerFrame = 4;
 
-std::vector<Vector3> compute_massive_accelerations(const std::vector<MassiveBody> &bodies)
+void compute_massive_accelerations(
+    const std::vector<MassiveBody> &bodies,
+    std::vector<Vector3> &accelerations)
 {
-    std::vector<Vector3> accelerations(bodies.size(), {0.0f, 0.0f, 0.0f});
+    accelerations.assign(bodies.size(), {0.0f, 0.0f, 0.0f});
 
     // Every massive body both feels and exerts gravity, so this is the full
     // O(massive^2) pairwise sum. The massive set is tiny compared to the
@@ -53,15 +55,14 @@ std::vector<Vector3> compute_massive_accelerations(const std::vector<MassiveBody
             accelerations[i].z += delta.z * scale;
         }
     }
-
-    return accelerations;
 }
 
-std::vector<Vector3> compute_massless_accelerations(
+void compute_massless_accelerations(
     const MasslessBodies &masslessBodies,
-    const std::vector<MassiveBody> &massiveBodies)
+    const std::vector<MassiveBody> &massiveBodies,
+    std::vector<Vector3> &accelerations)
 {
-    std::vector<Vector3> accelerations(masslessBodies.size(), {0.0f, 0.0f, 0.0f});
+    accelerations.assign(masslessBodies.size(), {0.0f, 0.0f, 0.0f});
 
     // Asteroids are massless test particles: they are pulled by the massive
     // bodies but exert no force of their own and do not interact with each
@@ -96,15 +97,19 @@ std::vector<Vector3> compute_massless_accelerations(
             accelerations[i].z += delta.z * scale;
         }
     }
-
-    return accelerations;
 }
 
 void step_physics(std::vector<MassiveBody> &massiveBodies, MasslessBodies &masslessBodies, float dt)
 {
-    const std::vector<Vector3> massiveAccelOld = compute_massive_accelerations(massiveBodies);
-    const std::vector<Vector3> masslessAccelOld =
-        compute_massless_accelerations(masslessBodies, massiveBodies);
+    // The body counts are fixed after startup, so these buffers are sized once
+    // on the first call and then reused for the rest of the program's life.
+    static std::vector<Vector3> massiveAccelOld;
+    static std::vector<Vector3> masslessAccelOld;
+    static std::vector<Vector3> massiveAccelNew;
+    static std::vector<Vector3> masslessAccelNew;
+
+    compute_massive_accelerations(massiveBodies, massiveAccelOld);
+    compute_massless_accelerations(masslessBodies, massiveBodies, masslessAccelOld);
 
     // Velocity Verlet: advance positions using the current acceleration.
     for (std::size_t i = 0; i < massiveBodies.size(); ++i)
@@ -124,9 +129,8 @@ void step_physics(std::vector<MassiveBody> &massiveBodies, MasslessBodies &massl
     // Recompute accelerations at the new positions. Massless bodies are never
     // sources, so the massive set's new accelerations depend only on the
     // massive positions just advanced above.
-    const std::vector<Vector3> massiveAccelNew = compute_massive_accelerations(massiveBodies);
-    const std::vector<Vector3> masslessAccelNew =
-        compute_massless_accelerations(masslessBodies, massiveBodies);
+    compute_massive_accelerations(massiveBodies, massiveAccelNew);
+    compute_massless_accelerations(masslessBodies, massiveBodies, masslessAccelNew);
 
     // Update velocities with the average of old and new accelerations.
     for (std::size_t i = 0; i < massiveBodies.size(); ++i)
