@@ -27,6 +27,16 @@ double presentSum = 0.0;
 double elapsedMs = 0.0;
 int sampleCount = 0;
 
+// Ring buffer holding the most recent completed one-second averages, used to
+// compute the 10-second average reported on shutdown.
+constexpr int kHistorySeconds = 10;
+double frameHistory[kHistorySeconds] = {};
+double physicsHistory[kHistorySeconds] = {};
+double renderHistory[kHistorySeconds] = {};
+double presentHistory[kHistorySeconds] = {};
+int historyNext = 0;   // index of the next slot to write
+int historyCount = 0;  // number of valid entries (capped at kHistorySeconds)
+
 } // namespace
 
 void tick(double frameMs)
@@ -45,6 +55,16 @@ void tick(double frameMs)
         avgRenderMs = renderSum / sampleCount;
         avgPresentMs = presentSum / sampleCount;
 
+        frameHistory[historyNext] = avgFrameMs;
+        physicsHistory[historyNext] = avgPhysicsMs;
+        renderHistory[historyNext] = avgRenderMs;
+        presentHistory[historyNext] = avgPresentMs;
+        historyNext = (historyNext + 1) % kHistorySeconds;
+        if (historyCount < kHistorySeconds)
+        {
+            ++historyCount;
+        }
+
         frameSum = 0.0;
         physicsSum = 0.0;
         renderSum = 0.0;
@@ -56,16 +76,39 @@ void tick(double frameMs)
 
 void report()
 {
+    if (historyCount == 0)
+    {
+        std::printf("\n=== Profiling (10s averages) ===\nno data captured\n");
+        return;
+    }
+
+    double frameTotal = 0.0;
+    double physicsTotal = 0.0;
+    double renderTotal = 0.0;
+    double presentTotal = 0.0;
+    for (int i = 0; i < historyCount; ++i)
+    {
+        frameTotal += frameHistory[i];
+        physicsTotal += physicsHistory[i];
+        renderTotal += renderHistory[i];
+        presentTotal += presentHistory[i];
+    }
+
     std::printf(
-        "\n=== Profiling (1s averages) ===\n"
+        "\n=== Profiling (10s averages) ===\n"
         "frame avg:   %6.2f ms\n"
         "physics avg: %6.2f ms\n"
         "render avg:  %6.2f ms\n"
         "present avg: %6.2f ms\n",
-        avgFrameMs,
-        avgPhysicsMs,
-        avgRenderMs,
-        avgPresentMs);
+        frameTotal / historyCount,
+        physicsTotal / historyCount,
+        renderTotal / historyCount,
+        presentTotal / historyCount);
+
+    if (historyCount < kHistorySeconds)
+    {
+        std::printf("(captured %d of %d seconds)\n", historyCount, kHistorySeconds);
+    }
 }
 
 } // namespace profiling

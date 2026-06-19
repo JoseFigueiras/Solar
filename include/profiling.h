@@ -35,7 +35,8 @@ inline void accumulate(double &smoothed, double sampleMs)
 // the per-second averages when a full second has elapsed.
 void tick(double frameMs);
 
-// Print the most recent per-second averages (frame/physics/render) to stdout.
+// Print the average over the last 10 seconds (frame/physics/render/present) to
+// stdout, along with how many seconds were actually captured if fewer than 10.
 // Intended to be called once on shutdown so the final timings survive after the
 // window closes.
 void report();
